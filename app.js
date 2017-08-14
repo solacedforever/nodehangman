@@ -54,7 +54,7 @@ app.post('/', function(req,res){
   }
   if(numberOfGuesses === 0){
     res.redirect('/gameover')
-    return numberOfGuesses;
+    return num;
   }
 
   let correctLetters = randomWordLetters.map(function(letter){
@@ -66,7 +66,7 @@ app.post('/', function(req,res){
   });
 
  if (correctLetters.includes(req.body.letterInput)){
-   numberOfGuesses == 1
+   numberOfGuesses += 1
  }
 
   var schema = {
