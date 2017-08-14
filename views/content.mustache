@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hangman Game</title>
+  </head>
+  <body>
+    <h1>Hangman Game</h1>
+    <p>{{#letters}}
+            {{.}}
+            {{/letters}}</p>
+    <p> {{#spaces}}
+              {{_}}
+              {{/spaces}}</p>
+    {{#gameOver}}<p>{{.}}</p>{{/gameOver}}
+    <form action ="/" method="POST">
+        <input type="text" name="letterInput" placeholder="guess">
+        <button type="submit">Guess</button>
+      </form>
+    <p id="tries">Tries left:{{#numberOfGuesses}}{{.}}{{/numberOfGuesses}}</p>
+    <p>Guessed Letters: {{#guessed}}{{.}}{{/guessed}}</p>
+  </body>
+</html>
