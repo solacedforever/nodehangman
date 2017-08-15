@@ -37,6 +37,7 @@ let randomWordLetters = randomWord.split("");
 let guessedLetters = [];
 let numberOfGuesses = 8;
 
+
 app.get('/', function(req, res) {
   res.render('content', {space : randomWordLetters, numberOfGuesses})
 });
@@ -46,15 +47,14 @@ app.get('/youwin', function (req, res){
 })
 
 app.post('/', function(req,res){
-
   if (req.body.letterInput.split('').length === 1 && guessedLetters.includes(req.body.letterInput) === false ){
     guessedLetters.push(req.body.letterInput);
     numberOfGuesses -= 1
     console.log(req.body.letterInput.split(''));
   }
+
   if(numberOfGuesses === 0){
     res.redirect('/gameover')
-    return num;
   }
 
   let correctLetters = randomWordLetters.map(function(letter){
@@ -65,9 +65,11 @@ app.post('/', function(req,res){
     }
   });
 
+
  if (correctLetters.includes(req.body.letterInput)){
    numberOfGuesses += 1
  }
+
 
   var schema = {
     'letterInput': {
@@ -82,6 +84,12 @@ app.post('/', function(req,res){
     },
   };
   req.assert(schema);
+  let isSame = correctLetters.every(function(element, i) {
+    return element === randomWordLetters[i];
+  });
+  if(isSame){
+    res.redirect('/youwin');
+  }else{
   req.getValidationResult().then(function(results) {
 
     if (results.isEmpty()) {
@@ -99,18 +107,10 @@ app.post('/', function(req,res){
         errors: results.array()
       });
     }
-
   });
-  let isSame = correctLetters.every(function(element, i) {
-    return element === randomWordLetters[i];
-});
+  };
 
-  if(isSame){
-    res.redirect('/youwin')
-    return youwin;
-  }
 });
-
 app.get('/gameover', function(req, res){
   req.session.destroy();
   res.render('gameover')
